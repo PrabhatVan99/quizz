@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button onclick="nextQuestion()">Next</button>
+    <div id="d1"></div>
+
+    <script>
+        let array = [
+            {
+                "questionText": "Which mountain is the tallest in the world?",
+                "options": ["Mount Everest", "K2", "Kangchenjunga", "Lhotse"],
+                "answer": "Mount Everest",
+                "category": "Geography"
+            },
+            {
+                "questionText": "In which ocean is the Bermuda Triangle located?",
+                "options": ["Atlantic Ocean", "Pacific Ocean", "Indian Ocean", "Arctic Ocean"],
+                "answer": "Atlantic Ocean",
+                "category": "Geography"
+            },
+            {
+                "questionText": "Which country hosted the 2016 Summer Olympics?",
+                "options": ["Brazil", "USA", "Russia", "China"],
+                "answer": "Brazil",
+                "category": "Sports"
+            },
+            {
+                "questionText": "Who holds the record for the most goals scored in a single FIFA World Cup tournament?",
+                "options": ["Just Fontaine", "Pele", "Miroslav Klose", "Diego Maradona"],
+                "answer": "Just Fontaine",
+                "category": "Sports"
+            },
+            {
+                "questionText": "Which sport is known as the 'King of Sports'?",
+                "options": ["Soccer", "Cricket", "Tennis", "Basketball"],
+                "answer": "Soccer",
+                "category": "Sports"
+            },
+            {
+                "questionText": "In which city did the first modern Olympic Games take place in 1896?",
+                "options": ["Athens", "London", "Paris", "Rome"],
+                "answer": "Athens",
+                "category": "Sports"
+            },
+            {
+                "questionText": "Who is often referred to as 'The Greatest' in the sport of boxing?",
+                "options": ["Muhammad Ali", "Mike Tyson", "Floyd Mayweather Jr.", "Sugar Ray Robinson"],
+                "answer": "Muhammad Ali",
+                "category": "Sports"
+            },
+        ];
+
+        function nextQuestion() {
+            if (array.length > 0) {
+                let question = array.shift();
+                let div = document.getElementById('d1')
+                div.innerHTML = question.questionText;
+                div.innerHTML += '<br/>'
+                for (const option of question.options) {
+                    div.innerHTML += `<label>
+                                        <input type='radio' name="answer"/>
+                                        ${option}
+                                      </label>
+                                      </br>`
+                }
+            } else {
+                let div = document.getElementById('d1')
+                div.innerHTML = 'Questions ended'
+            }
+        }
+    </script>
+</body>
+
+</html>

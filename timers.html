@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <div id="timer">0</div>
+    <button onclick="startTimer()">START</button>
+    <button onclick="stopTimer()">STOP</button>
+
+    <script>
+        let time = 10;
+        let ref = null;
+
+        function increment(){ 
+            if(time == 0){
+                clearInterval(ref)
+            }           
+            let timerDiv = document.getElementById('timer')
+            timerDiv.innerHTML = time;
+            time--;
+            
+        }
+
+        function startTimer(){
+            time = 10;
+            ref = setInterval(increment,1000)
+        }
+       
+        function stopTimer(){
+            clearInterval(ref)
+        }
+       
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .item {
+            display: inline-block;
+            height: 100px;
+            width: 80px;
+            border: 1px solid gray;
+            margin: 20px;
+            border-radius: 5px;
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <button onclick="loadCategories()">Load Categories</button>
+    <div id="d1">
+    </div>
+    <script>
+        // let categories = ["HTML", "CSS", "Javascript", "Geography", "Sports"]
+        let categories = [
+            { brand: "Iphone", price: 12345 },
+            { brand: "Samsung", price: 76543  },
+            { brand: "Xiaomi", price: 87654  },
+            { brand: "HTC" , price: 543 },
+            { brand: "Acer", price: 432  }]
+
+        function loadCategories() {
+            let contentDiv = document.getElementById('d1')
+            for (const item of categories) {
+                contentDiv.innerHTML += (
+                    "<div class='item'>" 
+                            + item.brand 
+                            + "<br/>" 
+                            + item.price + 
+                    "</div>")
+            }
+        }
+
+    </script>
+</body>
+
+</html>

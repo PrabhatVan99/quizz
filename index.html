@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(to left bottom, rgb(19, 19, 113), rgb(14, 14, 74), rgb(16, 16, 106));
+        }
+
+        #timerDiv{
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            height: 2rem;
+            width: 2rem;
+        }
+
+        #categoriesDiv {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        #questionsDiv {
+            width: 80vw;
+        }
+
+        button {
+            background-color: transparent;
+            color: white;
+            padding: 10px;
+            border: 2px solid white;
+            border-radius: 15px;
+            cursor: pointer;
+        }
+        .text-white {
+            color: white
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="timerDiv" class="text-white"></div>
+
+    <div class="center-container">
+        <div id="categoriesDiv">
+
+        </div>
+
+        <div id="questionsDiv">
+            <button onclick="nextQuestion()">Next</button>
+            <div id="d1"></div>
+        </div>
+
+        <div id="resultsDiv">
+
+        </div>
+    </div>
+
+    <script>
+        let marks = 0;
+        let defaultTime = 10;
+
+
+        let time = defaultTime;
+        let timerRef = null;
+
+        let categoriesList = [
+            "Geography",
+            "Sports",
+            "CSS"
+        ];
+        let array = [
+            {
+                "questionText": "Which property is used for changing font color?",
+                "options": ["font-color", "forecolor", "color", "fore-color"],
+                "answer": "color",
+                "category": "CSS"
+            },
+            {
+                "questionText": "To alight content in the left side of flex",
+                "options": ["justify-content:start", "justify-content:end", "justify-content:left", "justify-content:first"],
+                "answer": "justify-content:start",
+                "category": "CSS"
+            },
+            {
+                "questionText": "To add hover effect on element which psuedo selector use?",
+                "options": [":mouse-move", ":focus", ":visited", ":hover"],
+                "answer": ":hover",
+                "category": "CSS"
+            },
+
+
+            {
+                "questionText": "Which mountain is the tallest in the world?",
+                "options": ["K2", "Mount Everest", "Kangchenjunga", "Lhotse"],
+                "answer": "Mount Everest",
+                "category": "Geography"
+            },
+            {
+                "questionText": "In which ocean is the Bermuda Triangle located?",
+                "options": ["Atlantic Ocean", "Pacific Ocean", "Indian Ocean", "Arctic Ocean"],
+                "answer": "Atlantic Ocean",
+                "category": "Geography"
+            },
+            {
+                "questionText": "Which country hosted the 2016 Summer Olympics?",
+                "options": ["Brazil", "USA", "Russia", "China"],
+                "answer": "Brazil",
+                "category": "Sports"
+            },
+            {
+                "questionText": "Who holds the record for the most goals scored in a single FIFA World Cup tournament?",
+                "options": ["Just Fontaine", "Pele", "Miroslav Klose", "Diego Maradona"],
+                "answer": "Just Fontaine",
+                "category": "Sports"
+            },
+            {
+                "questionText": "Which sport is known as the 'King of Sports'?",
+                "options": ["Soccer", "Cricket", "Tennis", "Basketball"],
+                "answer": "Soccer",
+                "category": "Sports"
+            }
+        ];
+
+        let categoriesDiv = document.getElementById('categoriesDiv')
+        let questionsDiv = document.getElementById('questionsDiv')
+        let resultsDiv = document.getElementById('resultsDiv')
+        let timerDiv = document.getElementById('timerDiv')
+
+        function showCategories() {
+
+            questionsDiv.style.display = 'none'
+            resultsDiv.style.display = 'none'
+            categoriesDiv.style.display = 'flex'
+
+            for (const category of categoriesList) {
+                categoriesDiv.innerHTML += `<button onclick="showQuestionsPage('${category}')">${category}</button>`
+            }
+
+        }
+
+        function showQuestionsPage(category) {
+            // removing all the questions from other category
+            // keep only those question which are related to same category;
+
+            array = array.filter(x => x.category == category)
+            categoriesDiv.style.display = 'none'
+            resultsDiv.style.display = 'none'
+            questionsDiv.style.display = 'block';
+            if(array.length > 0){
+                nextQuestion()
+            }else{
+                showResultsPage()
+            }
+        }
+
+        function showResultsPage() {
+            timerDiv.style.display = 'none'
+            categoriesDiv.style.display = 'none'
+            questionsDiv.style.display = 'none'
+            resultsDiv.style.display = 'block';
+
+            resultsDiv.innerHTML = `<h1 class='text-white'>Your Marks: ${marks}</h1>`
+        }
+
+        function timerFunction(){ 
+            if(time == 0){
+                clearInterval(timerRef);
+                nextQuestion() 
+            }
+            timerDiv.innerHTML = time;
+            time--;
+            
+        }
+
+
+        function nextQuestion() {
+            if(timerRef){
+                clearInterval(timerRef);
+            }
+           
+            //to check if any radio button is checked;
+
+            let radio = document.querySelector('input[correct]:checked')
+            if (radio) {
+                marks++;
+            }
+
+
+            if (array.length > 0) {
+                time = defaultTime;
+                timerRef = setInterval(timerFunction,1000)
+
+                let question = array.shift();
+                let div = document.getElementById('d1')
+                div.innerHTML = `<p class="text-white">${question.questionText}</p>`;
+                div.innerHTML += '<br/>'
+                for (const option of question.options) {
+                    div.innerHTML += `<label class="text-white">
+                                          <input    type='radio' 
+                                                    name="answer" 
+                                                    ${option == question.answer ? "correct" : ""}/>
+                                        ${option}
+                                      </label>
+                                      </br>`
+                }
+            } else {
+                showResultsPage()
+            }
+        }
+
+        window.addEventListener('load', showCategories)
+
+    </script>
+</body>
+
+</html>
